@@ -1,0 +1,11 @@
+#!/bin/bash
+CURRENTDIR=`pwd`
+docker run --rm -it \
+  -u $(id -u):$(id -g) \
+  -v ${CURRENTDIR}/:/workspace \
+  -w /workspace \
+  --mount type=bind,source=/tmp/.X11-unix,target=/tmp/.X11-unix \
+  --mount type=bind,source=/mnt/wslg,target=/mnt/wslg \
+  --env DISPLAY=${DISPLAY} --env WAYLAND_DISPLAY=${WAYLAND_DISPLAY} \
+  --env XDG_RUNTIME_DIR=${XDG_RUNTIME_DIR} \
+  texlive-env qpdfview

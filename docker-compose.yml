@@ -1,0 +1,38 @@
+version: "3.9"
+
+services:
+  texlive:
+    build: 
+      context: ./mytexlive
+      args:
+        - UID=${USERID}
+        - GID=${GROUPID}
+    env_file: .env
+    environment:
+      - DISPLAY=$DISPLAY
+      - WAYLAND_DISPLAY=$WAYLAND_DISPLAY
+      - XDG_RUNTIME_DIR=$XDG_RUNTIME_DIR
+      - PULSE_SERVER=$PULSE_SERVER
+    volumes:
+      - /run/user/${USERID}:/run/user/${USERID}
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - /mnt/wslg:/mnt/wslg
+      - ./workspace:/workspace
+  neovim:
+    build:
+      context: ../../myneovim
+    volumes:
+      - ./workspace:/workspace
+      - neovimconf:/root/.config/nvim
+      - neovimcache:/root/.cache
+      - neovimshare:/root/.local/share/nvim
+    profiles:
+      - extra
+
+volumes:
+  neovimconf:
+    name: neovimconf
+  neovimcache:
+    name: neovimcache
+  neovimshare:
+    name: neovimshare

@@ -1,0 +1,3 @@
+[submodule "mytexlive"]
+	path = mytexlive
+	url = ./mytexlive/
